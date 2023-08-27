@@ -41,6 +41,9 @@ class Post(models.Model):
     rate = models.IntegerField(default=0.0)
     post_category = models.ManyToManyField(Category,through='PostCategory')
 
+    def __str__(self):
+        return f'{self.head.title()}: {self.text}'
+
 # увеличение рэйтинга на 1
     def like(self):
         self.rate +=1
