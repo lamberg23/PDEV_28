@@ -2,12 +2,17 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.urls import reverse
 
 
 #модель автор поста/статьи
 class Author(models.Model):
     author = models.OneToOneField(User,on_delete = models.CASCADE)
     rate = models.IntegerField(default=0)
+
+    # Вывод имени автора
+    def __str__(self):
+        return self.author.username
 
 # расчет рэйтинга автора
     def update_rating(self):
@@ -21,6 +26,10 @@ class Author(models.Model):
 # модель категория статьи -  категории строго уникальны
 class Category(models.Model):
     post_category = models.CharField(max_length=255,unique=True)
+
+    def __str__(self):
+        return self.post_category
+
 
 #модель статья/новость. Связь с автором, может иметь несколько категорий
 class Post(models.Model):
@@ -43,6 +52,10 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.head.title()}: {self.text}'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
+
 
 # увеличение рэйтинга на 1
     def like(self):
