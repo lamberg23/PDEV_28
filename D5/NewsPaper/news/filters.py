@@ -10,7 +10,7 @@ from .models import Post
 class PostFilter(FilterSet):
     date = django_filters.DateFilter(field_name = 'time_in',
                                      widget = forms.DateInput(attrs={'type':'date'}),label = 'Дата',
-                                     lookup_expr = 'time_in__gte')
+                                     lookup_expr = 'date__gte')
     class Meta:
         # В Meta классе мы должны указать Django модель,
         # в которой будем фильтровать записи.
@@ -21,5 +21,5 @@ class PostFilter(FilterSet):
             # поиск по названию
             'text': ['icontains'],
             'author':['exact'],
-            'time_in':['time_in__gte'],
+
         }
